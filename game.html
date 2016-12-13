@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="js/jquery-3.1.1.min.js"></script>
     <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
     <script src="../../dist/js/bootstrap.min.js"></script>
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
@@ -24,14 +24,26 @@
                 });
             };
         }
+        function construct_body(){
+            var body = "";
+            var template = "{0}: {1};";
+            for (var s in scavenge["scavenge"]){
+                var scav = scavenge["scavenge"][s];
+                var id = scav["id"];
+                var ans = $("#resp_"+ id).val();
+                body += template.format(id, ans);
+            }
+            return btoa(body)
+        }
 
         function finish(){
-            $(".inp").attr("disabled", true);
+            $("#send_mail_hide").css("display", "parent");
             has_shown = true;
             if (confirm("Open Mail app to send results")){
                 var emailTo = atob("c21oc2Nhdmh1bnRAZ21haWwuY29t");
                 var emailSub = "Results: " + prompt("Please write your name(s): ");
-                location.href = "mailto:"+emailTo+'&subject='+emailSub+'&body='+emailBody;
+                var emailBody = "--- DO NOT EDIT THIS ---\n{" + construct_body() + "}\n------------------------";
+                location.href = "mailto:"+emailTo+'?subject='+emailSub+'&body='+emailBody;
             }
         }
 
@@ -41,13 +53,15 @@
             if (secs > -1) var repr = "{0}:{1}{2}".format(Math.floor(time_left / 60000), secs < 10?"0":"" ,secs);
             else {
                 repr = "TIME EXPIRED";
-                if (has_shown) $("#send_mail").attr("disabled", false);
+                $(".inp").attr("disabled", true);
+                if (has_shown) $("#send_mail_hide").css("display", "parent");
                 else finish();
             }
             $('#timer').html(repr);
         }
         function save_change(ch, id){
-            window.localStorage.setItem("ANSWER_"+id,ch.valueOf())
+            window.localStorage.setItem("ANSWER_"+id,$(ch).val());
+            $("#well_"+ id).css('background', '#cce6ff');
         }
         function on_load(){
             var local = window.localStorage;
@@ -56,36 +70,17 @@
             }
             update_time();
             $("#replacer").html(Mustache.render(template, scavenge));
-            window.setInterval(update_time, 500)
+            window.setInterval(update_time, 500);
+            for (var s in scavenge["scavenge"]){
+                var scav = scavenge["scavenge"][s];
+                var id = scav.id;
+                var s_code = local["ANSWER_"+id];
+                $("#resp_"+ id).val(s_code);
+                if (s_code != 0) $("#well_"+ id).css('background', '#cce6ff');
+            }
         }
         var has_shown = false;
-        var scavenge =
-        {"scavenge": {
-                "id": 1,
-                "challenge": "Near the door to the hidden abode \n\
-Where stored goods lie, you shall find the code ",
-                "score": 5
-            }
-            };
-        var template = '\
-        \{{# scavenge }}\
-        <div class="well">\
-        <div class="row">\
-        <div class="col-md-8">\
-        <span style="font-size: 1.5em;">\
-        <h4>Points: {{score}}</h4>\
-        <pre>{{challenge}}</pre>\
-        </span>\
-        </div>\
-        <div class="col-md-4">\
-        <input maxlength="5" style="font-size: 1.5em" onchange="save_change(this, {{id}})" id="{{id}}"  type="number" class="inp" src value="0"/>\
-        </div>\
-        </div>\
-        </div>\
-        </div>\
-        {{/ scavenge}}\
-        ';
-    </script>
+        </script>
 
     <title>SHM Scavenger Hunt</title>
 
@@ -99,10 +94,50 @@ Where stored goods lie, you shall find the code ",
         <h1>Sacred Heart Scavenger Hunt</h1>
         <p> Time Remaining:</p>
         <h3 id="timer">30:00</h3>
-        <label>This button will allow you to send the mail: </label>
-        <button disabled="disabled" type="button" onclick="finish()" id="send_mail" class="send btn-sm btn-primary">Send Mail</button>
+        <div id="send_mail_hide" style="display:none;">
+            <label>This button will allow you to send the mail once your time has expired: </label>
+            <button disabled="disabled" type="button" onclick="finish()" class="send btn-sm btn-primary">Send Mail</button>
+        </div>
     </div>
 
+    <script>
+        var scavenge =
+        {"scavenge": [
+            {
+                "id": 1,
+                "challenge": "Near the door to the hidden abode \n" +
+                "Where stored goods lie, you shall find the code ",
+                "score": 50
+            },
+            {
+                "id": 2,
+                "challenge": "Hours of joy and fun\n" +
+                "You’ve had here, under the sun\n" +
+                "Clammer to be done ",
+                "score": 20
+            }
+        ]
+        };
+        var template = '\
+        \{{# scavenge }}\
+        <div class="well" id="well_{{id}}" style="background: #f9f9f9; border-radius: 5px">\
+        <div class="row">\
+        <div class="col-md-8">\
+        <span style="font-size: 1.5em;">\
+        <h4>Points: {{score}}</h4>\
+        <pre>{{challenge}}</pre>\
+        </span>\
+        </div>\
+        <div class="col-md-4">\
+        <input maxlength="5" style="font-size: 1.5em" onchange="save_change(this, {{id}})" id="resp_{{id}}"  type="number" class="inp" src value="0"/>\
+        </div>\
+        </div>\
+        </div>\
+        </div>\
+        <br/>\
+        {{/ scavenge}}\
+        ';
+    </script>
     <div id="replacer"></div>
 
 </div><!-- /.container -->
