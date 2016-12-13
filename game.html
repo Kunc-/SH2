@@ -9,6 +9,8 @@
     <script src="../../dist/js/bootstrap.min.js"></script>
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
+
+    <script type="text/javascript" src="js/mustache.min.js" ></script>
     <script>
         // Format Code
         if (!String.prototype.format) {
@@ -28,7 +30,7 @@
             has_shown = true;
             if (confirm("Open Mail app to send results")){
                 var emailTo = atob("c21oc2Nhdmh1bnRAZ21haWwuY29t");
-                var emailSub = "Results: " ;
+                var emailSub = "Results: " + prompt("Please write your name(s): ");
                 location.href = "mailto:"+emailTo+'&subject='+emailSub+'&body='+emailBody;
             }
         }
@@ -53,9 +55,36 @@
                 local.setItem("end_time", Date.now() + (30 * 60 * 1000));
             }
             update_time();
+            $("#replacer").html(Mustache.render(template, scavenge));
             window.setInterval(update_time, 500)
         }
         var has_shown = false;
+        var scavenge =
+        {"scavenge": {
+                "id": 1,
+                "challenge": "Near the door to the hidden abode \n\
+Where stored goods lie, you shall find the code ",
+                "score": 5
+            }
+            };
+        var template = '\
+        \{{# scavenge }}\
+        <div class="well">\
+        <div class="row">\
+        <div class="col-md-8">\
+        <span style="font-size: 1.5em;">\
+        <h4>Points: {{score}}</h4>\
+        <pre>{{challenge}}</pre>\
+        </span>\
+        </div>\
+        <div class="col-md-4">\
+        <input maxlength="5" style="font-size: 1.5em" onchange="save_change(this, {{id}})" id="{{id}}"  type="number" class="inp" src value="0"/>\
+        </div>\
+        </div>\
+        </div>\
+        </div>\
+        {{/ scavenge}}\
+        ';
     </script>
 
     <title>SHM Scavenger Hunt</title>
@@ -74,26 +103,7 @@
         <button disabled="disabled" type="button" onclick="finish()" id="send_mail" class="send btn-sm btn-primary">Send Mail</button>
     </div>
 
-    
-
-    <div class="well">
-        <div class="row">
-            <div class="col-md-8">
-                <span style="font-size: 2em;">
-A holy statue lies <br/>
-Beneath the deep blue skies <br/>
-To garden beds <br/>
-You must be led
-                </span>
-            </div>
-            <div class="col-md-4">
-                <input maxlength="5" style="font-size: 1.5em" onchange="save_change(this)" type="number" class="inp" src value="0"/>
-            </div>
-        </div>
-    </div>
-    </div>
-
-
+    <div id="replacer"></div>
 
 </div><!-- /.container -->
 
