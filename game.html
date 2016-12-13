@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
+    <script src="../../dist/js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
+    <script>
+        // Format Code
+        if (!String.prototype.format) {
+            String.prototype.format = function() {
+                var args = arguments;
+                return this.replace(/{(\d+)}/g, function(match, number) {
+                    return typeof args[number] != 'undefined'
+                            ? args[number]
+                            : match
+                            ;
+                });
+            };
+        }
+
+        function finish(){
+            $(".inp").attr("disabled", true);
+            has_shown = true;
+            if (confirm("Open Mail app to send results")){
+                var emailTo = atob("c21oc2Nhdmh1bnRAZ21haWwuY29t");
+                var emailSub = "Results: " ;
+                location.href = "mailto:"+emailTo+'&subject='+emailSub+'&body='+emailBody;
+            }
+        }
+
+        function update_time(){
+            var time_left = window.localStorage["end_time"] - Date.now();
+            var secs = Math.floor(time_left/1000) % 60;
+            if (secs > -1) var repr = "{0}:{1}{2}".format(Math.floor(time_left / 60000), secs < 10?"0":"" ,secs);
+            else {
+                repr = "TIME EXPIRED";
+                if (has_shown) $("#send_mail").attr("disabled", false);
+                else finish();
+            }
+            $('#timer').html(repr);
+        }
+        function save_change(ch, id){
+            window.localStorage.setItem("ANSWER_"+id,ch.valueOf())
+        }
+        function on_load(){
+            var local = window.localStorage;
+            if (!local.end_time) {
+                local.setItem("end_time", Date.now() + (30 * 60 * 1000));
+            }
+            update_time();
+            window.setInterval(update_time, 500)
+        }
+        var has_shown = false;
+    </script>
+
+    <title>SHM Scavenger Hunt</title>
+
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body onload="on_load()">
+
+<div class="container">
+    <div class="container jumbotron">
+
+        <h1>Sacred Heart Scavenger Hunt</h1>
+        <p> Time Remaining:</p>
+        <h3 id="timer">30:00</h3>
+        <label>This button will allow you to send the mail: </label>
+        <button disabled="disabled" type="button" onclick="finish()" id="send_mail" class="send btn-sm btn-primary">Send Mail</button>
+    </div>
+
+    
+
+    <div class="well">
+        <div class="row">
+            <div class="col-md-8">
+                <span style="font-size: 2em;">
+A holy statue lies <br/>
+Beneath the deep blue skies <br/>
+To garden beds <br/>
+You must be led
+                </span>
+            </div>
+            <div class="col-md-4">
+                <input maxlength="5" style="font-size: 1.5em" onchange="save_change(this)" type="number" class="inp" src value="0"/>
+            </div>
+        </div>
+    </div>
+    </div>
+
+
+
+</div><!-- /.container -->
+
+</body>
+</html>
