@@ -5,10 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script src="js/jquery-3.1.1.min.js"></script>
-    <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
-    <script src="../../dist/js/bootstrap.min.js"></script>
-    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-    <script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
+    <script src="js/bootstrap.min.js"></script>
 
     <script type="text/javascript" src="js/mustache.min.js" ></script>
     <script>
@@ -41,8 +38,8 @@
             has_shown = true;
             if (confirm("Open Mail app to send results")){
                 var emailTo = atob("c21oc2Nhdmh1bnRAZ21haWwuY29t");
-                var emailSub = "Results: " + prompt("Please write your name(s): ");
-                var emailBody = "--- DO NOT EDIT THIS ---\n{" + construct_body() + "}\n------------------------";
+                var emailSub = "Results For Scavenger Hunt";
+                var emailBody = "--- DO NOT EDIT THIS : {" + construct_body() + "}{"+ btoa(prompt("Please write your name(s): ")) +"}";
                 location.href = "mailto:"+emailTo+'?subject='+emailSub+'&body='+emailBody;
             }
         }
@@ -63,21 +60,34 @@
             window.localStorage.setItem("ANSWER_"+id,$(ch).val());
             $("#well_"+ id).css('background', '#cce6ff');
         }
-        function on_load(){
-            var local = window.localStorage;
-            if (!local.end_time) {
-                local.setItem("end_time", Date.now() + (30 * 60 * 1000));
-            }
-            update_time();
-            $("#replacer").html(Mustache.render(template, scavenge));
-            window.setInterval(update_time, 500);
+        function format_scav(){
+            scavenge["scavenge"] = JSON.parse(localStorage.challenges);
             for (var s in scavenge["scavenge"]){
                 var scav = scavenge["scavenge"][s];
                 var id = scav.id;
-                var s_code = local["ANSWER_"+id];
+                var s_code = scav["ANSWER_"+id];
                 $("#resp_"+ id).val(s_code);
                 if (s_code != 0) $("#well_"+ id).css('background', '#cce6ff');
             }
+            $("#replacer").html(Mustache.render(template, scavenge));
+        }
+        function json_return(data){
+            console.log(data);
+            localStorage.setItem("challenges", JSON.stringify(data));
+            format_scav();
+        }
+        function on_load(){
+            var local = window.localStorage;
+
+            // Edge Case: end_time is defined, challenges not (or vice versa) - if error, tamper evidence
+            if ((!local.end_time) && (!local.challenges)) {
+                local.setItem("end_time", Date.now() + (30 * 60 * 1000));
+                $.getJSON("resources/challenges.json").done(json_return);
+            } else {
+                format_scav();
+            }
+            update_time();
+            window.setInterval(update_time, 500);
         }
         var has_shown = false;
         </script>
@@ -101,23 +111,7 @@
     </div>
 
     <script>
-        var scavenge =
-        {"scavenge": [
-            {
-                "id": 1,
-                "challenge": "Near the door to the hidden abode \n" +
-                "Where stored goods lie, you shall find the code ",
-                "score": 50
-            },
-            {
-                "id": 2,
-                "challenge": "Hours of joy and fun\n" +
-                "You’ve had here, under the sun\n" +
-                "Clammer to be done ",
-                "score": 20
-            }
-        ]
-        };
+        var scavenge = {"scavenge": []};
         var template = '\
         \{{# scavenge }}\
         <div class="well" id="well_{{id}}" style="background: #f9f9f9; border-radius: 5px">\
