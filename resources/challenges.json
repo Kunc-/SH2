@@ -1,53 +1,53 @@
 [
   {
-    "score": 25,
+    "score": 10,
     "id": 1,
-    "challenge": "Near the door to the hidden abode\nWhere stored goods lie, you shall find the code"
-  },
-  {
-    "score": 25,
-    "id": 2,
-    "challenge": "A Roof"
-  },
-  {
-    "score": 25,
-    "id": 3,
-    "challenge": "Hours of joy and fun\nYou've had here, under the sun\nClimb here to be done"
-  },
-  {
-    "score": 50,
-    "id": 4,
-    "challenge": "Those who've helped you faithfully\nNow celebrate festivities\nThe code is hidden in their tree\n"
-  },
-  {
-    "score": 25,
-    "id": 5,
-    "challenge": "Where you sat during your breaks\nNow a hiding spot makes\nThe cold hard surface hides a secret\nBut you must look beneath it."
+    "challenge": "The sum of many hours of workmen's toils\nTo move, now here you meet to find the spoils"
   },
   {
     "score": 10,
+    "id": 2,
+    "challenge": "In plain view, you'll find me\nI just have to be read by thee"
+  },
+  {
+    "score": 20,
+    "id": 3,
+    "challenge": "Previously here you met,\nBut in another place I'M set,\nIf you were hungry, here me you'd get"
+  },
+  {
+    "score": 20,
+    "id": 4,
+    "challenge": "Here what you brought to school each week\nSat while you were growing taller\nNow below them, slightly smaller\nLies the code you seek."
+  },
+  {
+    "score": 20,
+    "id": 5,
+    "challenge": "Look towards year four\nbut the code on store\nrequires you to go down more\n"
+  },
+  {
+    "score": 20,
     "id": 6,
-    "challenge": "The sum of many hours of workmen's toils\nTo move, now here you meet to find the spoils"
+    "challenge": "You'll have to recouperate to read this code"
   },
   {
     "score": 20,
     "id": 7,
-    "challenge": "Previously here you met,\nBut in another place I'M set,\nIf you were hungry, here me you'd get"
+    "challenge": "A door you've passed through many times\nA door that's often locked\nOn one of them this code shines\nbut it'll take you near the top\n"
   },
   {
-    "score": 100,
+    "score": 25,
     "id": 8,
-    "challenge": "The third of three, you rarely see\nBehind the Grill, you will find me (9)"
+    "challenge": "Near the door to the hidden abode\nWhere stored goods lie, you shall find the code"
   },
   {
-    "score": 10,
+    "score": 25,
     "id": 9,
-    "challenge": "In plain view, you'll find me\nYou just have to read me"
+    "challenge": "Hours of joy and fun\nYou've had here, under the sun\nLook underneath to be done"
   },
   {
-    "score": 20,
+    "score": 25,
     "id": 10,
-    "challenge": "Here your trusty book holder\nSat while you were growing taller\nNow below them, slightly smaller\nLies the code you seek."
+    "challenge": "Where you sat during your breaks\nNow a hiding spot makes\nThe cold hard surface hides a secret\nBut you must look beneath it."
   },
   {
     "score": 25,
@@ -55,48 +55,48 @@
     "challenge": "I keep the staff cool."
   },
   {
-    "score": 20,
-    "id": 12,
-    "challenge": "Look up towards Year 4, but not on the same floor"
-  },
-  {
-    "score": 50,
-    "id": 13,
-    "challenge": "Do you spy inside an office,\nThe code I hide, set off, is"
-  },
-  {
-    "score": 10,
-    "id": 14,
-    "challenge": "You'll have to recover to read this code"
-  },
-  {
-    "score": 50,
-    "id": 15,
-    "challenge": "You'd do well to discard this one."
-  },
-  {
-    "score": 50,
-    "id": 16,
-    "challenge": "The legacy of a peer,\nI'm here"
-  },
-  {
-    "score": 30,
-    "id": 17,
-    "challenge": "A door you've passed through many times\nA door that's often locked\nThey're near my code."
-  },
-  {
-    "score": 30,
-    "id": 18,
-    "challenge": "I'm near the fletching.\n"
-  },
-  {
     "score": 25,
-    "id": 19,
+    "id": 12,
     "challenge": "All I want is to test your memory,\nDid you see me?"
   },
   {
     "score": 50,
-    "id": 21,
-    "challenge": "\n"
+    "id": 13,
+    "challenge": "I'm near the fletching.\n"
+  },
+  {
+    "score": 50,
+    "id": 14,
+    "challenge": "Those who've helped you faithfully\nNow celebrate festivities\nThe code is hidden in their tree\n"
+  },
+  {
+    "score": 50,
+    "id": 15,
+    "challenge": "Do you spy inside an office,\nThe code I hide, set off, is"
+  },
+  {
+    "score": 50,
+    "id": 16,
+    "challenge": "You'd do well to discard this one."
+  },
+  {
+    "score": 50,
+    "id": 17,
+    "challenge": "The legacy of a peer,\nI'm here"
+  },
+  {
+    "score": 100,
+    "id": 18,
+    "challenge": "You've sat and stared forward,\nFor seven years now,\nBut for this one to stare up should\nMake you proud"
+  },
+  {
+    "score": 100,
+    "id": 19,
+    "challenge": "The third of three, you rarely see\nBehind the Grill, you will find me"
+  },
+  {
+    "score": 100,
+    "id": 20,
+    "challenge": "Once I was encaged\nWhere once you slept, lazed"
   }
 ]
